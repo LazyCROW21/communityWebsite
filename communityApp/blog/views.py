@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from django.http import JsonResponse, Http404
-from .models import Blog, User
+from django.http import JsonResponse, Http404, HttpResponse
+from django.template.loader import render_to_string 
+from .models import Blog, User, Email
 from django.contrib.auth.models import User as U
 import pymongo, json
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.utils.html import strip_tags
 from .serializers import BlogSerializer
 
 class HomeView(LoginRequiredMixin, TemplateView):
@@ -122,3 +124,33 @@ def get_user(request, pk):
             'blogs' : user_blog_list,
         }
     })
+
+# send a welcome mail to the specified address
+# checking if user exist will be added later
+# returns True if successful
+def sendWelcomeMail(request):
+    try:
+        user_id = 3
+        user = User.objects.get(id=user_id)
+        user_email = user.email
+        user_fname = user.first_name
+        
+        context = {'user': user_fname}
+        htmlmsgbody = render_to_string('emails/registrationsuccess.html', context)
+        plaintxtmsgbody = strip_tags(htmlmsgbody)
+
+        emailtobesent = EmailMultiAlternatives(
+            subject="Welcome to communityWeb",
+            body=plaintxtmsgbody,
+            from_email='',
+            # reply_to='',
+            to=[user_email]
+        )
+
+        emailtobesent.attach_alternative(htmlmsgbody, 'text/html')
+        emailtobesent.send()
+        return HttpResponse(htmlmsgbody)
+    except User.DoesNotExist:
+        return HttpResponse("User not found!")
+    
+    

@@ -53,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
@@ -184,3 +183,12 @@ SOCIAL_AUTH_GITHUB_SECRET = '3a5ec67c6a9dad5cc168b8c56c7c56e5fd1d2f16'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '971208114633-qpq0ddfmm72b1lmrm0cvh7fqanga6adv.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'VQhAUcrl594KGc5m9GA-i0Ox'
+
+# For E-mailing services
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = ''
+# DEFAULT_FROM_EMAIL = ''
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = ''

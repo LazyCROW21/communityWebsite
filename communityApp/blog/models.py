@@ -4,7 +4,7 @@ import math as m
 
 class User(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
-    auth_token = models.CharField(max_length=150)
+    auth_token = models.CharField(max_length=150, null=True, blank=True)
     first_name = models.CharField(max_length=50, null=False)
     last_name = models.CharField(max_length=50, null=False)
     email = models.EmailField()
@@ -54,3 +54,7 @@ class Comment(models.Model):
         return self.user.email
     
 
+class Email(models.Model):
+    receiver_email = models.CharField(max_length=256)
+    send_date = models.DateTimeField(auto_now=True)
+    subject = models.CharField(max_length=256)
