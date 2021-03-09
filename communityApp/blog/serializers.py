@@ -69,7 +69,7 @@ class CommentSerializer(CustomSerializer):
     def get_related_blog_id(self, obj: Comment):
         return obj.blog.id
     
-    class class Meta:
+    class Meta:
         model = Comment
         related_fields = ['username', 'related_blog_id', ]
     

@@ -38,8 +38,8 @@ def get_blog(request, slug):
         raise Http404
 
     return JsonResponse({
-        data=serializer.data, 
-        safe=False
+        'data':serializer.data, 
+        'safe':False
     })
 
 @login_required
